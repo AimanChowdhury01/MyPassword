@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Login {
@@ -19,25 +18,34 @@ public class Login {
             try {
                 File file = new File("users.txt");
                 Scanner fileScanner = new Scanner(file);
+                StringBuilder encryptedContent = new StringBuilder();
 
                 while (fileScanner.hasNextLine()) {
-                    String line = fileScanner.nextLine();
+                    encryptedContent.append(fileScanner.nextLine()).append("\n");
+                }
+                fileScanner.close();
+
+                // 🔥 FIXED: trim to remove hidden newline/carriage return chars
+                String decryptedContent = EncryptionUtility.decrypt(encryptedContent.toString().trim());
+                Scanner decryptedScanner = new Scanner(decryptedContent);
+
+                while (decryptedScanner.hasNextLine()) {
+                    String line = decryptedScanner.nextLine();
                     if (line.contains("Username: " + enteredUsername + ", Password: " + enteredPassword)) {
                         isValid = true;
                         break;
                     }
                 }
 
-                fileScanner.close();
-            } catch (FileNotFoundException e) {
-                System.out.println("User file not found.");
-                e.printStackTrace();
+                decryptedScanner.close();
+            } catch (Exception e) {
+                System.out.println("Error during login: " + e.getMessage());
                 return;
             }
 
             if (isValid) {
                 System.out.println("Login successful!");
-                Menu.start(enteredUsername, enteredPassword); // Pass credentials to menu
+                Menu.start(enteredUsername, enteredPassword);
                 break;
             } else {
                 System.out.println("Invalid credentials. Please try again.\n");

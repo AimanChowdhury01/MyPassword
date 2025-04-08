@@ -105,7 +105,10 @@ public class Menu {
 
         boolean found = false;
 
-        try (Scanner fileScanner = new Scanner(new File("users.txt"))) {
+        try {
+            String encryptedData = Files.readString(new File("users.txt").toPath());
+            String decryptedData = EncryptionUtility.decrypt(encryptedData.trim()); // 🔥 Fixed
+            Scanner fileScanner = new Scanner(decryptedData);
             boolean insideUser = false;
 
             while (fileScanner.hasNextLine()) {
@@ -122,10 +125,12 @@ public class Menu {
                 }
             }
 
+            fileScanner.close();
+
             if (!found) {
                 System.out.println("No password found for: " + site);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Error reading file.");
         }
     }
@@ -170,7 +175,9 @@ public class Menu {
     private static void modifyUserBlock(String user, Function<List<String>, List<String>> modifier) {
         try {
             File file = new File("users.txt");
-            List<String> allLines = new ArrayList<>(Files.readAllLines(file.toPath()));
+            String encryptedData = Files.readString(file.toPath());
+            String decryptedData = EncryptionUtility.decrypt(encryptedData.trim()); // 🔥 Fixed
+            List<String> allLines = new ArrayList<>(Arrays.asList(decryptedData.split("\n")));
             List<String> updatedLines = new ArrayList<>();
             boolean insideUser = false;
             List<String> userBlock = new ArrayList<>();
@@ -192,8 +199,11 @@ public class Menu {
                 }
             }
 
-            Files.write(file.toPath(), updatedLines);
-        } catch (IOException e) {
+            String updatedContent = String.join("\n", updatedLines);
+            String reEncryptedContent = EncryptionUtility.encrypt(updatedContent);
+            Files.write(file.toPath(), reEncryptedContent.getBytes());
+
+        } catch (Exception e) {
             System.out.println("Error updating file.");
         }
     }
