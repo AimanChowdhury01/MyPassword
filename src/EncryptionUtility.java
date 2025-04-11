@@ -4,7 +4,7 @@ import java.util.Base64;
 
 public class EncryptionUtility {
     private static final String ALGORITHM = "AES";
-    private static final String SECRET_KEY = "1234567890123456"; // 16 bytes = 128-bit key
+    private static final String SECRET_KEY = "1234567890123456";
 
     public static String encrypt(String data) throws Exception {
         SecretKeySpec key = new SecretKeySpec(SECRET_KEY.getBytes(), ALGORITHM);

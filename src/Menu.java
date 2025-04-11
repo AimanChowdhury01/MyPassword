@@ -107,7 +107,7 @@ public class Menu {
 
         try {
             String encryptedData = Files.readString(new File("users.txt").toPath());
-            String decryptedData = EncryptionUtility.decrypt(encryptedData.trim()); // 🔥 Fixed
+            String decryptedData = EncryptionUtility.decrypt(encryptedData.trim());
             Scanner fileScanner = new Scanner(decryptedData);
             boolean insideUser = false;
 
@@ -176,7 +176,7 @@ public class Menu {
         try {
             File file = new File("users.txt");
             String encryptedData = Files.readString(file.toPath());
-            String decryptedData = EncryptionUtility.decrypt(encryptedData.trim()); // 🔥 Fixed
+            String decryptedData = EncryptionUtility.decrypt(encryptedData.trim());
             List<String> allLines = new ArrayList<>(Arrays.asList(decryptedData.split("\n")));
             List<String> updatedLines = new ArrayList<>();
             boolean insideUser = false;

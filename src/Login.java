@@ -24,8 +24,6 @@ public class Login {
                     encryptedContent.append(fileScanner.nextLine()).append("\n");
                 }
                 fileScanner.close();
-
-                // 🔥 FIXED: trim to remove hidden newline/carriage return chars
                 String decryptedContent = EncryptionUtility.decrypt(encryptedContent.toString().trim());
                 Scanner decryptedScanner = new Scanner(decryptedContent);
 

@@ -30,7 +30,6 @@ public class CreateAccount {
                     if (file.exists()) {
                         String encryptedData = Files.readString(file.toPath());
                         if (!encryptedData.isEmpty()) {
-                            // 🔥 FIXED: trim() prevents illegal characters on decrypt
                             decryptedContent.append(EncryptionUtility.decrypt(encryptedData.trim())).append("\n");
                         }
                     }
